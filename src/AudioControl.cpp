@@ -83,7 +83,6 @@ void AudioControl::ListeningThread() {
     hr = cpEngine->CreateRecoContext(&cpRecoCtx);
     if (FAILED(hr)) {
         std::cerr << "Failed to create SAPI Reco Context" << std::endl;
-        if (cpEngine) cpEngine->Release();
         ::CoUninitialize();
         return;
     }
@@ -98,8 +97,6 @@ void AudioControl::ListeningThread() {
     hr = cpRecoCtx->CreateGrammar(0, &cpGrammar);
     if (FAILED(hr)) {
         std::cerr << "Failed to create SAPI Grammar" << std::endl;
-        if (cpRecoCtx) cpRecoCtx->Release();
-        if (cpEngine) cpEngine->Release();
         ::CoUninitialize();
         return;
     }
