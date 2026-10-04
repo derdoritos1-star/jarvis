@@ -1,0 +1,12 @@
+{
+    "steam_accounts": {
+        "1": {
+            "username": "my_main_account",
+            "password": "my_super_secret_password"
+        },
+        "2": {
+            "username": "my_smurf_account",
+            "password": "another_password"
+        }
+    }
+}
