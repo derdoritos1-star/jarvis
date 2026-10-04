@@ -1,0 +1,32 @@
+name: Build Jarvis
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config Release
+
+    - name: Prepare Artifacts
+      run: |
+        mkdir artifacts
+        copy ${{github.workspace}}\build\Release\Jarvis.exe artifacts\
+        copy ${{github.workspace}}\config.json artifacts\
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Jarvis-Windows
+        path: artifacts/
