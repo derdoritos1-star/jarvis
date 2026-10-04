@@ -24,9 +24,20 @@ jobs:
         mkdir artifacts
         copy ${{github.workspace}}\build\Release\Jarvis.exe artifacts\
         copy ${{github.workspace}}\config.json artifacts\
+        Compress-Archive -Path artifacts\* -DestinationPath Jarvis-Windows.zip
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: Jarvis-Windows
-        path: artifacts/
+        path: Jarvis-Windows.zip
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
+      with:
+        files: Jarvis-Windows.zip
+        tag_name: latest
+        name: Latest Build
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
